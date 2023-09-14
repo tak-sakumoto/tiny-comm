@@ -43,7 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="..\common\connection_info.cs">
+      <Link>connection_info.cs</Link>
+    </Compile>
+    <Compile Include="..\common\constants.cs">
+      <Link>constants.cs</Link>
+    </Compile>
+    <Compile Include="server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

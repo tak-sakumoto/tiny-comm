@@ -4,30 +4,26 @@ using System.Text;
 
 namespace client
 {
-    static class Constants
-    {
-        public const int BUFFER_SIZE = 256;
-    }
-
-    internal class Program
+    internal class client
     {
         static void Main(string[] args)
         {
+            ConnectionInfo server_info = new ConnectionInfo();
+
             // Get a server IP address
             Console.Write("Input a server IP address > ");
-            string server_ip_address = Console.ReadLine();
+            server_info.ip_address_str = Console.ReadLine();
 
             // Get the server port number
             Console.Write("Input the server port number > ");
-            string server_port_str = Console.ReadLine();
-            int server_port = Int32.Parse(server_port_str);
-
+            server_info.port = Int32.Parse(Console.ReadLine());
+            
             TcpClient tcp_client = null;
 
             try
             {
                 // Make a client for the server
-                tcp_client = new TcpClient(server_ip_address, server_port);
+                tcp_client = new TcpClient(server_info.ip_address_str, server_info.port);
 
                 // Buffer
                 Byte[] bytes = new Byte[Constants.BUFFER_SIZE];

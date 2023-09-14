@@ -5,32 +5,27 @@ using System.Text;
 
 namespace server
 {
-    static class Constants
-    {
-        public const int BUFFER_SIZE = 256;
-    }
-
-    internal class Program
+    internal class server
     {
         static void Main(string[] args)
         {
+            ConnectionInfo client_info = new ConnectionInfo();
+
             // Get a client IP address
             Console.Write("Input a client IP address > ");
-            string client_ip_address_str = Console.ReadLine();
-            IPAddress client_ip_address = IPAddress.Parse(client_ip_address_str);
+            client_info.ip_address_str = Console.ReadLine();
 
             // Get the client port number
             Console.Write("Input the client port number > ");
-            string client_port_str = Console.ReadLine();
-            int client_port = Int32.Parse(client_port_str);
+            client_info.port = Int32.Parse(Console.ReadLine());
 
             TcpListener listener = null;
 
             try
             {
                 // Make a listener for the client
-                var ip_end_point = new IPEndPoint(client_ip_address, client_port);
-                listener = new TcpListener(ip_end_point);
+                client_info.set_ip_end_point();
+                listener = new TcpListener(client_info.ip_end_point);
                 listener.Start();
 
                 // Buffer for recieved data from the client
