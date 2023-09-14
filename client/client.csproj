@@ -64,7 +64,7 @@
     <Compile Include="..\common\constants.cs">
       <Link>constants.cs</Link>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="client.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
