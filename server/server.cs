@@ -8,32 +8,44 @@ internal class server
     static void Main(string[] args)
     {
         ConnectionInfo client_info = new ConnectionInfo();
+        TcpListener listener = null;
 
-        // Get a client IP address
-        Console.Write("Input a client IP address > ");
-        client_info.ip_address_str = Console.ReadLine();
+        while (true)
+        {
+            while (true)
+            {
+                try
+                {
+                    // Get a client IP address
+                    Console.Write("Input a client IP address > ");
+                    client_info.ip_address_str = Console.ReadLine();
 
-        // Get the client port number
-        Console.Write("Input the client port number > ");
-        client_info.port = Int32.Parse(Console.ReadLine());
+                    // Get the client port number
+                    Console.Write("Input the client port number > ");
+                    client_info.port = Int32.Parse(Console.ReadLine());
 
-        // Make a listener for the client
-        client_info.set_ip_end_point();
+                    // Make a listener for the client
+                    client_info.set_ip_end_point();
 
-        Listen(client_info);
+                    listener = new TcpListener(client_info.ip_end_point);
+                    listener.Start();
+                    break;
+                }
+                catch (SocketException)
+                {
+                    Console.WriteLine("Cannot establish a connection. Please try again.");
+                }
+            }
 
-        Console.WriteLine("Exit");
-
+            Listen(listener);
+            Console.WriteLine("Finish listening.");
+        }
     }
 
-    static void Listen(ConnectionInfo client_info)
+    static void Listen(TcpListener listener)
     {
-        TcpListener listener = null;
         try
         {
-            listener = new TcpListener(client_info.ip_end_point);
-            listener.Start();
-
             // Listening loop
             while (true)
             {
