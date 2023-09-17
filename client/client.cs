@@ -11,37 +11,38 @@ internal class client
 
         while (true)
         {
-            // Get a server IP address
-            Console.Write("Input a server IP address > ");
-            server_info.ip_address_str = Console.ReadLine();
+            while (true)
+            {
+                Console.WriteLine("Attempt to connect with server.");
 
-            // Get the server port number
-            Console.Write("Input the server port number > ");
-            server_info.port = Int32.Parse(Console.ReadLine());
+                // Get a server IP address
+                server_info.GetIPAddress();
+
+                // Get the server port number
+                server_info.GetPortNumber();
+
+                try
+                {
+                    // Make a client for the server
+                    tcp_client = new TcpClient(server_info.ip_address_str, server_info.port);
+                    break;
+                }
+                catch (SocketException)
+                {
+                    Console.WriteLine("Cannot establish a connection. Please try again.");
+                }
+            }
 
             try
-            { 
-                // Make a client for the server
-                tcp_client = new TcpClient(server_info.ip_address_str, server_info.port);
-                break;
-            }
-            catch (SocketException)
             {
-                Console.WriteLine("Cannot establish a connection. Please try again.");
+                // Send text messages to the server
+                SendTextToConsole(tcp_client);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
-
-        try
-        {
-            // Send text messages to the server
-            SendTextToConsole(tcp_client);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
-
-        Console.WriteLine("Exit");
     }
 
     static void SendTextToConsole(TcpClient tcp_client)
