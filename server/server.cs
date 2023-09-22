@@ -51,7 +51,9 @@ internal class server
             while (true)
             {
                 // Accept requests from the client
+                Console.Write("Waiting... ");
                 TcpClient client = listener.AcceptTcpClient();
+                Console.WriteLine("Connected.");
 
                 // Recieve text messages from the client
                 RecieveTextFromClient(client);
