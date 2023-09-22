@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
 
@@ -33,14 +34,40 @@ internal class client
                 }
             }
 
-            try
+            bool exit_flg = false;
+            while (!exit_flg)
             {
-                // Send text messages to the server
-                SendTextToConsole(tcp_client);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
+                try
+                {
+                    // Get a mode
+                    Console.Write("Select a mode > ");
+                    string mode = Console.ReadLine();
+
+                    switch (mode)
+                    {
+                        // Close the connection
+                        case "close":
+                            Console.WriteLine("Close");
+                            tcp_client.Close();
+                            exit_flg = true;
+                            break;
+
+                        // Send text messages to the server
+                        case "text":
+                            Console.WriteLine("Text sending");
+                            SendTextToConsole(tcp_client);
+                            break;
+
+                        // Undefined mode
+                        default:
+                            Console.WriteLine("Undefined");
+                            break;
+                   }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             }
         }
     }
